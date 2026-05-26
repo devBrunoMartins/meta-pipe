@@ -1,34 +1,38 @@
+# venv
 .venv/
 venv/
+env/
+ENV/
 
-__pycache__
-
-tempCodeRunnerFile.py
-
-env
-.env
-
+# Python cache
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-.pytest_cache/
-.mypy_cache/
-
-.vscode/
-.idea/
-
-.DS_Store
-
-*.log
-
-data/
-
+# Build / packaging
+*.egg-info/
 dist/
 build/
 
-coverage/
-htmlcov/
+# Editable install metadata
+src/*.egg-info/
 
-*.parquet
-*.json
+# IDE
+.vscode/
+.idea/
+
+# local scripts
+tempCodeRunnerFile.py
+
+# Environment variables
+.env
+
+# Data (opcional, depende do seu uso)
+data/
+
+# Logs (se você adicionar futuramente)
+logs/
+
+# OS
+.DS_Store

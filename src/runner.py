@@ -1,6 +1,6 @@
-from bronze.run_bronze import run as run_bronze
-from silver.run_silver import run as run_silver
-from gold.run_gold import run as run_gold
+from src.pipeline.bronze.run_bronze import run as run_bronze
+from src.pipeline.silver.run_silver import run as run_silver
+from src.pipeline.gold.run_gold import run as run_gold
 
 
 def pipe_run():
