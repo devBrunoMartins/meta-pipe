@@ -81,7 +81,7 @@ def run(production: bool=True) -> None:
     }
 
     for dataset, url in DATASETS.items():
-        
+
         path_str = (f"{BASE_DIR}/"
             f"layer=bronze/"
             f"dataset={dataset}/"
