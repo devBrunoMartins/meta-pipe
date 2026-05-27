@@ -33,10 +33,4 @@ def prepare_path(
 
 
 if __name__=='__main__':
-    from config.system.pipeline import BASE_DIR
-    print(prepare_path(
-    dataset = 'exemplo',
-    base_root = BASE_DIR,
-    layer = 'silver',
-    extension = 'cvs'
-))
+    ...
