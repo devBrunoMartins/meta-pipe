@@ -230,7 +230,7 @@ def write_dataset(dataset: pd.DataFrame, dataset_name: str) -> None:
     print(f'Salvo em: \033[36m{str(rote)}\033[0m')
 
 
-def run() -> None:
+def run(config: list[dict]) -> None:
     
     version = 'latest'    
     ## Obtém caminho para os dados no datalake de acordo com a versão configurada em "version"
