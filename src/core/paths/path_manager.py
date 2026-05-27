@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 
 def prepare_path(
     dataset: str,
-    base_root: Path,
+    data_dir: Path,
     layer: str,
     extension: str
 ) -> Path:
@@ -15,7 +15,7 @@ def prepare_path(
     )
 
     path = (
-        base_root
+        data_dir
         / f"layer={layer}"
         / f"dataset={dataset}"
         / f"year={timestamp.year}"

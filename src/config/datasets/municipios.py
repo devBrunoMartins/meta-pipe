@@ -1,5 +1,6 @@
 MUNICIPIOS_CONFIG = {
-
+    'label': 'Municípios',
+    'name': 'municipios',
     'url': (
         'https://servicodados.ibge.gov.br/api/v1/'
         'localidades/municipios'

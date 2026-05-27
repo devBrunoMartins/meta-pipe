@@ -1,5 +1,6 @@
 POPULACAO_CONFIG = {
-
+    'label': 'População',
+    'name': 'populacao',
     'url': (
         'https://servicodados.ibge.gov.br/api/v3/'
         'agregados/4714/periodos/2022/'

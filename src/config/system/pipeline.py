@@ -11,6 +11,7 @@ PARQUET_COMPRESSION = "snappy"
 LOG_LEVEL = "INFO"
 
 # Root directory path 
-BASE_DIR=Path(__file__).parent.parent.parent.parent
+BASE_DIR                = Path(__file__).parent.parent.parent.parent
+DATA_DIR                = BASE_DIR / 'data'
 
 
