@@ -4,7 +4,7 @@ from pipeline.silver.transform.dataframe import to_dataframe
 from core.io.load_json import load_json
 from pipeline.silver.transform.convert_dtypes import convert_types
 from pipeline.silver.transform.rename import columns_rename
-
+from pipeline.silver.transform.remove_nulls import remove_nulls
 from pprint import pprint
 
 def run(config: list[dict]):
@@ -17,6 +17,7 @@ def run(config: list[dict]):
    
         name = ds_config['name']
         columns = ds_config['columns']
+        columns_not_null = ds_config['constraints']['not_null']
 
         print(f'Carregando versão {version} do dataset {ds_config['label']} \nsource: \033[36m{dataset_paths[name]}\033[0m')
     
@@ -34,8 +35,8 @@ def run(config: list[dict]):
 
         df_dataset = convert_types(df_dataset, ds_config['dtypes'])
 
-        # print(f'Removendo linhas com dados obrigatórios que estão nulos...')
-        # df_municipios = remove_null(df_municipios, municipios_config)
+        print(f'Removendo linhas com dados obrigatórios que estão nulos...')
+        df_dataset = remove_nulls(df_dataset, columns_not_null)
 
         # print(f'Removendo linhas duplicadas...')
         # df_municipios = remove_duplicates(df_municipios, municipios_config)
