@@ -22,20 +22,17 @@ def run(config: list[dict]):
     
         json_dataset = load_json(dataset_paths[name])
         
-        print(f'Gerando Pandas DataFrame...')
+        print(f'Gerando DataFrame...')
 
         df_dataset = to_dataframe(json_dataset, ds_config)
 
-        print(f'Convertendo os tipos de dados...')
-
-        df_dataset = to_dataframe(json_dataset, ds_config)
+        print(f'Renomeando colunas...')
 
         df_dataset = columns_rename(df_dataset, columns)
 
-        print(df_dataset)
+        print(f'Convertendo os tipos de dados...')
 
-        # df_dataset = convert_types(df_dataset, ds_config['dtypes'])
-        # print(df_dataset)
+        df_dataset = convert_types(df_dataset, ds_config['dtypes'])
 
         # print(f'Removendo linhas com dados obrigatórios que estão nulos...')
         # df_municipios = remove_null(df_municipios, municipios_config)
