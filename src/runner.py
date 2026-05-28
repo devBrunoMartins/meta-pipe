@@ -17,7 +17,7 @@ config = [
 def pipe_run():
 
     # Executa camada bronze
-    print(f"\n\033[33mExtract\033[0m")
+    # print(f"\n\033[33mExtract\033[0m")
     # run_bronze(config=config)
     
     # Executa camada silver
