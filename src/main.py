@@ -1,6 +1,10 @@
+import sqlite3
+
 from pipeline.bronze.run import run as run_bronze
 from src.pipeline.silver.run import run as run_silver
 # from src.pipeline.gold.run import run as run_gold
+
+from config.system.pipeline import METADATA_DIR, METADATA_NAME
 
 from config.datasets.municipios import MUNICIPIOS_CONFIG
 from config.datasets.populacao import POPULACAO_CONFIG
@@ -15,11 +19,20 @@ config = [
 
 
 def pipe_run():
-    
+
+    #################################################################
+    ### START
+    #################################################################
+    path_db = METADATA_DIR / METADATA_NAME
+    conn = sqlite3.connect(path_db)
+    db = SQLiteDB(conn)
+    repo = Repository(db)
+    versioning = Versioning(repo)
+
     #################################################################
     ### LAYER BRONZE
     #################################################################
-
+    
     print(f"\n\033[33mExtract\033[0m")
 
     run_bronze(config=config)
