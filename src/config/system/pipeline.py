@@ -5,7 +5,9 @@ HTTP_TIMEOUT = 30
 HTTP_RETRIES = 2
 
 # Parquet
-PARQUET_COMPRESSION = "snappy"
+PARQUET_COMPRESSION = 'snappy'
+PARQUET_ENGINE = 'pyarrow'
+PARQUET_INDEX = False
 
 # Logging
 LOG_LEVEL = "INFO"

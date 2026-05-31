@@ -1,6 +1,11 @@
 POPULACAO_CONFIG = {
+
     'label': 'População',
+
     'name': 'populacao',
+
+    'table_prefix': 'fact',
+    
     'url': 'https://servicodados.ibge.gov.br/api/v3/agregados/4714/periodos/2022/variaveis/93?localidades=N6',
 
     'payload': {

@@ -1,6 +1,11 @@
 MUNICIPIOS_CONFIG = {
+
     'label': 'Municípios',
+
     'name': 'municipios',
+
+    'table_prefix': 'dim',
+
     'url': 'https://servicodados.ibge.gov.br/api/v1/localidades/municipios',
 
     'payload': {

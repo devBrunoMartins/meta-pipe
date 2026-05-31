@@ -1,6 +1,11 @@
 PIB_CONFIG = {
+
     'label': 'PIB',
+
     'name': 'pib',
+
+    'table_prefix': 'fact',
+
     'url': 'https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2021',
 
     'payload': {
