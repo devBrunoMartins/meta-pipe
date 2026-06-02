@@ -3,6 +3,13 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
+def ensure_path(path: Path):
+        path.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+
 def prepare_path(
     dataset: str,
     data_dir: Path,
@@ -24,10 +31,7 @@ def prepare_path(
         / f"{int(timestamp.timestamp())}.{extension}"
     )
 
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    ensure_path(path.parent)
 
     return path
 

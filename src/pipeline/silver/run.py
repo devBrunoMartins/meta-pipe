@@ -1,4 +1,3 @@
-from core.versioning.versions_manager import get_path_by_version
 from config.system.pipeline import DATA_DIR, PARQUET_COMPRESSION
 from pipeline.silver.transform.dataframe import to_dataframe
 from core.io.load_json import load_json
@@ -16,7 +15,8 @@ def run(config: list[dict]):
 
     version = 'latest'    
 
-    dataset_paths = get_path_by_version(version, DATA_DIR)
+    # dataset_paths = get_path_by_version(version, DATA_DIR)
+    dataset_paths = None
 
     for ds_config in config:
    

@@ -28,10 +28,11 @@ tempCodeRunnerFile.py
 # Environment variables
 .env
 
-# Data (opcional, depende do seu uso)
+# Data e Metadata (Dados do pipeline e metadados do sistema)
 data/
+metadata/
 
-# Logs (se você adicionar futuramente)
+# Logs 
 logs/
 
 # OS
