@@ -2,17 +2,26 @@ from core.io.save_json import save_json
 from core.io.request_json import request_json
 from core.paths.path_manager import prepare_path
 from config.system.pipeline import DATA_DIR, HTTP_RETRIES, HTTP_TIMEOUT
-from core.execution.versioning import Versioning
+from core.execution.execution import Execution
 
 LAYER_NAME = 'bronze'
 
-def run(config: list[dict], versioning:Versioning) -> None:
 
-    for dataset in config:
+def run(
+        dataset_conf: list[dict],
+        execution:Execution
+    ) -> None:
+    
 
-        dataset_name = dataset['name']
-        dataset_label = dataset['label']
-        dataset_url = dataset['url']
+    layer = execution.get_layer_by_name(LAYER_NAME)
+    pending_assets = execution.pending_assets(layer)
+
+    for asset in pending_assets:
+        conf = dataset_conf[asset.name]
+
+        dataset_label = conf['label']
+        dataset_name = asset.name
+        dataset_url = conf['url']
 
         print(
             f"Extraindo \033[36m{dataset_label}\033[0m\n"
@@ -34,11 +43,17 @@ def run(config: list[dict], versioning:Versioning) -> None:
 
         save_json(data_raw, path)
 
-        versioning.registry_asset(
-            layer_name=LAYER_NAME,
-            name=dataset_name,
-            path=str(path)
-            )
+        asset.path = str(path)
+        execution.asset_finish(asset)
+
+        print(f'Salvo em: \033[36m{str(path)}\033[0m\n')
+        
+    execution.layer_finish(layer)
+
+
+
+
+
 
 
 if __name__=='__main__':
