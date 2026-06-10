@@ -1,3 +1,5 @@
+import sqlite3
+
 from infra.repositories.version_repository import VersionRepository
 from infra.repositories.layer_repository import  LayerRepository
 from infra.repositories.asset_repository import AssetRepository
@@ -5,9 +7,10 @@ from config.system.pipeline import METADATA_DIR, METADATA_NAME
 from infra.paths.path_manager import ensure_path
 from core.execution.execution import Execution
 from infra.db.sqlite_db import SQLiteDB
-import sqlite3
+from utils.clear import clear
 
 def bootstrap():
+    clear()
     
     #################################################################
     ############################ START ##############################

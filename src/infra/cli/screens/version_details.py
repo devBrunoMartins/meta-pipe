@@ -1,9 +1,11 @@
-from infra.cli.inputs import get_user_response_int
+from infra.cli.input.entry_num import entry_num
 from core.execution.execution import Execution
 from core.execution.models.version import Version
+from utils.clear import clear
 
 def version_details(execution: Execution, version: Version):
-
+    clear()
+    
     status_color = {
         "success": "\033[32m",
         "pending": "\033[33m",
@@ -13,9 +15,9 @@ def version_details(execution: Execution, version: Version):
 
     print(f"""
 
-================================================================
-                    DETALHES DA EXECUÇÃO
-================================================================
+====================================================================================
+                                DETALHES DA EXECUÇÃO
+====================================================================================
 
 ID...............: {version.id_version}
 Nome.............: {version.name}
@@ -24,17 +26,14 @@ Status...........: {version.status}
 Início...........: {version.start_at}
 Fim..............: {version.finished_at}
 
-================================================================
-                        CAMADAS
-================================================================
+====================================================================================
+                                       CAMADAS
+====================================================================================
 """)
-
     layers = execution.get_layers_by_version(version)
 
     for layer in layers:
         print(f"""
-
-------------------------------------------------------------
 Camada: {layer.name.upper()}
 Status: {layer.status}
 ID: {layer.id_layer}
@@ -52,17 +51,16 @@ ID: {layer.id_layer}
                 f"Status: {status_color.get(asset.status, '')}"
                 f"{asset.status}{reset}"
             )
-
+        print("""
+--------------------------------------------------------------------------------""")
     print("""
 
-------------------------------------------------------------
-
     [0] Voltar
-
-================================================================
+          
+====================================================================================
 """)
     while True:
-        option = get_user_response_int('Digite a opção desejada: ')
+        option = entry_num('Digite a opção desejada: ', required=True)
         if option == 0:
             return
         print('Opção inválida.')

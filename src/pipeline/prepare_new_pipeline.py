@@ -4,13 +4,13 @@ from config.pipeline.gold import GOLD_DATASET_CONFIG
 
 from core.execution.execution import Execution
 
-from infra.cli.inputs import get_user_response_str
+from infra.cli.input.entry_alpha_num import entry_alpha_num
 
 
 def prepare_new_pipeline(execution: Execution):
 
-    name = get_user_response_str('Nome..............: ')
-    description = get_user_response_str('Descrição.........: ')
+    name = entry_alpha_num('Nome..............: ', required=True)
+    description = entry_alpha_num('Descrição.........: ')
 
     execution.init_version(
         name=name,

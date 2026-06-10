@@ -1,11 +1,14 @@
-from infra.paths.path_manager import remove_files
-from core.execution.execution import Execution
-from infra.cli.inputs import get_user_response_int
 from pathlib import Path
 
+from infra.paths.path_manager import remove_files
+from core.execution.execution import Execution
+from infra.cli.input.entry_num import entry_num
+from utils.clear import clear
+from infra.cli.screens.table_versions import table_versions
 
 def version_delete(execution: Execution):
-
+    clear()
+    
     versions = execution.get_versions()
     if not versions:
         return 
@@ -13,43 +16,28 @@ def version_delete(execution: Execution):
     
     print("""
 
-================================================================
-                        VERSÕES REGISTRADAS
-================================================================
+====================================================================================
+                                VERSÕES REGISTRADAS
+====================================================================================
 """)
 
-    for version in versions:
-        if version.status == 'success':
-            status_color = '\033[032m'
-        else:
-            status_color = '\033[031m'
-
-        finished_at = version.finished_at or '---'
-
-        print(
-            f"ID: \033[036m{version.id_version:<3}\033[0m "
-            f"Nome: \033[035m{version.name:<20}\033[0m "
-            f"Descrição: \033[035m{version.description:<20}\033[0m "
-            f"Status: {status_color}{version.status:<9}\033[0m"
-            f"Início: \033[036m{version.start_at:<20}\033[0m "
-            f"Fim: \033[036m{finished_at:<20}\033[0m"
-            )
+    table_versions(versions)
     print("""
---------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
         Selecione uma execução para excluir.
         \033[031m Atenção: todos os registros serão excluídos! \033[0m
 
-====================================================================
+====================================================================================
 
     """)
 
 
     list_options = [version.id_version for version in versions]
 
-    option = get_user_response_int(
+    option = entry_num(
 """Informe o ID da execução a ser deletada\n[0] Voltar\n
-Digite a opção desejada: """)
+Digite a opção desejada: """, required=True)
     
     if option == 0:
         return
