@@ -15,6 +15,7 @@ class LayerRepository:
                 status TEXT NOT NULL,
                 FOREIGN KEY (id_version)
                     REFERENCES tb_version(id_version)
+                    ON DELETE CASCADE
             );
         """
 
@@ -111,17 +112,18 @@ class LayerRepository:
     def update(self, layer: Layer):
         query = """
             UPDATE tb_layer
-            SET id_version = ?,
-                name = ?,
+            SET name = ?,
                 status = ?
-            WHERE id_layer = ?
+            WHERE 
+                id_layer = ? and
+                id_version = ?
         """
 
         params = (
-            layer.id_version,
             layer.name,
             layer.status,
-            layer.id_layer
+            layer.id_layer,
+            layer.id_version
         )
 
         self.db.execute(query, params)

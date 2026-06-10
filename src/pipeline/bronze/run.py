@@ -1,6 +1,6 @@
-from core.io.save_json import save_json
-from core.io.request_json import request_json
-from core.paths.path_manager import prepare_path
+from infra.io.save_json import save_json
+from infra.io.request_json import request_json
+from infra.paths.path_manager import prepare_path
 from config.system.pipeline import DATA_DIR, HTTP_RETRIES, HTTP_TIMEOUT
 from core.execution.execution import Execution
 
@@ -9,14 +9,16 @@ LAYER_NAME = 'bronze'
 
 def run(
         dataset_conf: list[dict],
-        execution:Execution
+        execution: Execution
     ) -> None:
     
-
+    
     layer = execution.get_layer_by_name(LAYER_NAME)
     pending_assets = execution.pending_assets(layer)
 
+
     for asset in pending_assets:
+
         conf = dataset_conf[asset.name]
 
         dataset_label = conf['label']
@@ -44,10 +46,10 @@ def run(
         save_json(data_raw, path)
 
         asset.path = str(path)
-        execution.asset_finish(asset)
-
         print(f'Salvo em: \033[36m{str(path)}\033[0m\n')
-        
+        execution.asset_finish(asset)
+      
+
     execution.layer_finish(layer)
 
 

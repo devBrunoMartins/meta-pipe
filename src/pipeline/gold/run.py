@@ -4,13 +4,15 @@ from pipeline.gold.metrics.ranking_pib import build_gold_ranking_pib
 from pipeline.gold.metrics.ranking_populacao import build_gold_ranking_populacao
 from pipeline.gold.metrics.ranking_pib_per_capita import build_gold_ranking_pib_per_capita
 
-from config.system.pipeline import DATA_DIR, PARQUET_COMPRESSION
+from config.system.pipeline import DATA_DIR
 
 from infra.io.load_parquet import load_parquet
-from core.paths.path_manager import prepare_path
-from core.io.save_parquet import save_parquet
+from infra.paths.path_manager import prepare_path
+from infra.io.save_parquet import save_parquet
 
 from core.execution.execution import Execution
+
+
 
 LAYER_NAME = 'gold'
 LAYER_SILVER = 'silver'
@@ -107,6 +109,7 @@ def run(
                 asset.path = path
                 execution.asset_finish(asset)
 
+    execution.layer_finish(layer)
 
 # if __name__ == "__main__":
 #     run()

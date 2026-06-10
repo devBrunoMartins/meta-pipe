@@ -17,6 +17,7 @@ class AssetRepository:
                 status TEXT NOT NULL,
                 FOREIGN KEY (id_layer)
                     REFERENCES tb_layer(id_layer)
+                    ON DELETE CASCADE
             );
         """
 

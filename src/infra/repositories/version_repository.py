@@ -107,3 +107,18 @@ class VersionRepository:
         self.db.commit()
 
         return cursor.lastrowid
+
+
+
+    def delete_version(self, version_id: int):
+        query = """
+            DELETE FROM
+                tb_version
+            WHERE
+                id_version = ?
+        """
+
+        params = (version_id,)
+
+        self.db.execute(query, params)
+        self.db.commit()

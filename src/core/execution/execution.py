@@ -100,6 +100,22 @@ class Execution:
         asset.id_asset = id_asset
 
 
+    def get_versions(self):
+        versions_list = []
+        for row in self.version_repo.get_all():
+            versions_list.append(
+                Version(
+                    id_version = row[0],
+                    name = row[1],
+                    description = row[2],
+                    start_at = row[3],
+                    finished_at = row[4],
+                    status = row[5]
+                )
+            )
+        return versions_list
+
+
     def get_layers(self):
         return self.version.layers
 
@@ -109,19 +125,13 @@ class Execution:
                 return layer
 
     def pending_assets(self, layer: Layer|None = None):
-        if layer:
-            return [asset for asset in layer.assets
-                    if asset.status in self.status_pending]
-        else:
-            return layer.assets
-
+        return [asset for asset in layer.assets
+                if asset.status in self.status_pending]
+    
 
     def success_assets(self, layer: Layer|None = None):
-        if layer:
-            return [asset for asset in layer.assets
-                    if asset.status not in self.status_pending]
-        else:
-            return layer.assets
+        return [asset for asset in layer.assets
+                if asset.status not in self.status_pending]
 
 
     def asset_finish(self, asset):
@@ -135,16 +145,18 @@ class Execution:
 
 
     def find_pending_versions(self) -> list:
-        interruptions = ['failed', 'pending']
+        pendings = ['failed', 'pending']
         tb_version = self.version_repo.get_all()
         versions = []
 
         for row in tb_version:
-            if row[3] in interruptions:
-                version = Layer(
+            if row[5] in pendings:
+                version = Version(
                 id_version = row[0],
                 name = row[1],
+                description = row[2],
                 start_at = row[3],
+                finished_at = row[4],
                 status = row[5]
                 )
 
@@ -152,16 +164,85 @@ class Execution:
         
         return versions
 
+    def get_layers_by_version(self, version: Version):
+        layer_list = []
 
-    def finish(self,
-            finished_at,
-            status
-    ):
+        for row in self.layer_repo.get_by_id_version(version.id_version):
+            print
+            id_layer = row[0]
+            id_version = row[1]
+            name = row[2]
+            status = row[3]
+
+            layer_list.append(
+                Layer(
+                    id_layer = id_layer,
+                    id_version = id_version,
+                    name = name,
+                    status = status
+                ))
+
+        return layer_list
+
+
+    def get_assets_by_layer(self, layer: Layer):
+        asset_list = []
+
+        for row in self.asset_repo.get_by_id_layer(layer.id_layer):
+            id_asset = row[0]
+            id_layer = row[1]
+            name = row[2]
+            path = row[3]
+            status = row[4]
+
+            asset_list.append(
+                Asset(
+                    id_asset = id_asset,
+                    id_layer = id_layer,
+                    name = name,
+                    path = path,
+                    status = status
+                ))
+        return asset_list
+
+
+    def get_assets_by_version(self, version: Version) -> list[Asset]:
+        layers = self.get_layers_by_version(version)
+        assets_lists = []
+        for layer in layers:
+            assets_lists.append(self.get_assets_by_layer(layer))
+
+        assets_list = []
+        for list_ in assets_lists:
+            assets_list += list_
+
+        return assets_list
+            
+
+    def load_version_pending(self, version: Version):
+        self.version = version
+        for layer in self.get_layers_by_version(version):
+            for asset in self.get_assets_by_layer(layer):
+                layer.assets.append(asset)
+
+            self.version.layers.append(layer) 
+
+
+    def delete_version(self, id_version):
+        self.version_repo.delete_version(id_version)
+
+    def finish(self):
         
         if not self.version:
             return 
         
-        self.version.finished_at = finished_at
-        self.version.status = status
+        self.version.finished_at = datetime.now(
+            ZoneInfo("America/Sao_Paulo")
+        ).strftime("%Y-%m-%d %H:%M:%S")
+        self.version.status = self.SUCCESS
         
         self.version_repo.update_version(self.version)
+
+        self.version = None
+
+

@@ -1,13 +1,14 @@
-from config.system.pipeline import DATA_DIR, PARQUET_COMPRESSION
+from config.system.pipeline import DATA_DIR
 from pipeline.silver.transform.dataframe import to_dataframe
-from core.io.load_json import load_json
+from infra.io.load_json import load_json
 from pipeline.silver.transform.convert_dtypes import convert_types
 from pipeline.silver.transform.rename import columns_rename
 from pipeline.silver.transform.remove_nulls import remove_nulls
 from pipeline.silver.transform.delete_duplicates import delete_duplicates
-from core.paths.path_manager import prepare_path
-from core.io.save_parquet import save_parquet
+from infra.paths.path_manager import prepare_path
+from infra.io.save_parquet import save_parquet
 from core.execution.execution import Execution
+
 
 LAYER_NAME = 'silver'
 LAYER_BRONZE = 'bronze'
@@ -68,9 +69,11 @@ def run(
         save_parquet(df_dataset, path)
 
         asset_silver.path = str(path)
-        execution.asset_finish(asset_silver)
-
         print(f'Salvo em: \033[36m{str(path)}\033[0m\n')
+
+
+        execution.asset_finish(asset_silver)
+       
 
     execution.layer_finish(layer)
 

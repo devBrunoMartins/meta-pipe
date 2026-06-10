@@ -17,3 +17,5 @@ BASE_DIR                = Path(__file__).parent.parent.parent.parent
 DATA_DIR                = BASE_DIR / 'data'
 METADATA_DIR            = BASE_DIR / 'metadata'
 METADATA_NAME           = 'metadata.db'
+
+
